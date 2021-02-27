@@ -69,9 +69,12 @@ class TransformerEncoderLayer(Module):
         # Normalize the masks
         N = x.shape[0]
         L = x.shape[1]
-        attn_mask = attn_mask or FullMask(L, device=x.device)
-        length_mask = length_mask or \
-            LengthMask(x.new_full((N,), L, dtype=torch.int64))
+        
+        # Change by SAM for linear memory space
+        # attn_mask = attn_mask or FullMask(L, device=x.device)
+        # attn_mask = attn_mask or FullMask(L, device=x.device)
+        attn_mask = attn_mask
+        length_mask = length_mask
 
         # Run self attention and add it to the input
         x = x + self.dropout(self.attention(
@@ -133,8 +136,7 @@ class TransformerEncoder(Module):
         # Change by SAM for linear memory space
         # attn_mask = attn_mask or FullMask(L, device=x.device)
         attn_mask = attn_mask
-        length_mask = length_mask or \
-            LengthMask(x.new_full((N,), L, dtype=torch.int64))
+        length_mask = length_mask
 
         # Apply all the transformers
         for layer in self.layers:

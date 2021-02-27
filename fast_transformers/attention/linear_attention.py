@@ -65,7 +65,7 @@ class LinearAttention(Module):
         # if not attn_mask.all_ones:
         #     raise RuntimeError(("LinearAttention does not support arbitrary "
         #                         "attention masks"))
-        K = K * key_lengths.float_matrix[:, :, None, None]
+        K = K * key_lengths[:, :, None, None]
 
         # Compute the KV matrix, namely the dot product of keys and values so
         # that we never explicitly compute the attention matrix and thus
