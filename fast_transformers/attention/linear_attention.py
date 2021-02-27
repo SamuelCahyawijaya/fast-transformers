@@ -59,11 +59,12 @@ class LinearAttention(Module):
         Q = self.feature_map.forward_queries(queries)
         K = self.feature_map.forward_keys(keys)
 
-        # Apply the key padding mask and make sure that the attn_mask is
-        # all_ones
-        if not attn_mask.all_ones:
-            raise RuntimeError(("LinearAttention does not support arbitrary "
-                                "attention masks"))
+        # Change by SAM for linear memory space
+        # # Apply the key padding mask and make sure that the attn_mask is
+        # # all_ones
+        # if not attn_mask.all_ones:
+        #     raise RuntimeError(("LinearAttention does not support arbitrary "
+        #                         "attention masks"))
         K = K * key_lengths.float_matrix[:, :, None, None]
 
         # Compute the KV matrix, namely the dot product of keys and values so

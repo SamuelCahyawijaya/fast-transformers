@@ -129,7 +129,10 @@ class TransformerEncoder(Module):
         # Normalize the masks
         N = x.shape[0]
         L = x.shape[1]
-        attn_mask = attn_mask or FullMask(L, device=x.device)
+        
+        # Change by SAM for linear memory space
+        # attn_mask = attn_mask or FullMask(L, device=x.device)
+        attn_mask = attn_mask
         length_mask = length_mask or \
             LengthMask(x.new_full((N,), L, dtype=torch.int64))
 
